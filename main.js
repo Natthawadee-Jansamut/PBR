@@ -16,12 +16,12 @@ scene.add(light);
 
 // Load MTL and OBJ (ไม่ใช้ setPath())
 const mtlLoader = new THREE.MTLLoader();
-mtlLoader.load('C:\Users\User\Downloads\Graphics\HW3\frog.mtl', (materials) => {
+mtlLoader.load('frog.mtl', (materials) => {
     materials.preload();
 
     const objLoader = new THREE.OBJLoader();
     objLoader.setMaterials(materials);
-    objLoader.load('C:\Users\User\Downloads\Graphics\HW3\frog.obj', (object) => {
+    objLoader.load('frog.obj', (object) => {
         scene.add(object);
     });
 });
@@ -39,3 +39,4 @@ window.addEventListener('resize', () => {
     camera.updateProjectionMatrix();
     renderer.setSize(window.innerWidth, window.innerHeight);
 });
+
