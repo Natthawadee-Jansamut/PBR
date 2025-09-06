@@ -97,8 +97,8 @@
                 normalMap: textures.hands_norm,
                 metalnessMap: textures.hands_spec,
                 roughnessMap: textures.hands_gloss,
-                metalness: 1.0,
-                roughness: 0.3
+                metalness: 5.0,
+                roughness: 1.0
               });
               break;
             case "Object_7":
@@ -108,15 +108,15 @@
                 metalnessMap: textures.head_spec,
                 roughnessMap: textures.head_gloss,
                 aoMap: textures.head_AO,
-                metalness: 1.0,
-                roughness: 0.3
+                metalness: 5.0,
+                roughness: 1.0
               });
               break;
             case "Object_8":
               child.material = new THREE.MeshStandardMaterial({
                 map: textures.eye_diff,
-                metalness: 1.0,
-                roughness: 0.3
+                metalness: 5.0,
+                roughness: 1.0
               });
               break;
             case "Object_9":
@@ -126,8 +126,8 @@
                 metalnessMap: textures.legs_spec,
                 roughnessMap: textures.legs_gloss,
                 aoMap: textures.legs_AO,
-                metalness: 1.0,
-                roughness: 0.3
+                metalness: 5.0,
+                roughness: 1.0
               });
               break;
             case "Object_10":
@@ -137,8 +137,8 @@
                 metalnessMap: textures.body_spec,
                 roughnessMap: textures.body_gloss,
                 aoMap: textures.body_AO,
-                metalness: 1.0,
-                roughness: 0.3
+                metalness: 5.0,
+                roughness: 1.0
               });
               break;
             case "Object_12":
@@ -148,39 +148,20 @@
                 metalnessMap: textures.jetpack_spec,
                 roughnessMap: textures.jetpack_gloss,
                 aoMap: textures.jetpack_AO,
-                metalness: 1.0,
-                roughness: 0.3
+                metalness: 5.0,
+                roughness: 1.0
               });
               break;
             default:
               child.material = new THREE.MeshStandardMaterial({
                 color: 0xaaaaaa,
-                metalness: 1.0,
-                roughness: 0.3
+                metalness: 5.0,
+                roughness: 1.0
               });
           }
         }
       });
       scene.add(object);
-    });
-
-    // Loader 2: OBJ + MTL
-    const mtlLoader = new THREE.MTLLoader();
-    mtlLoader.load('Metal_Rouge.mtl', (materials) => {
-      materials.preload();
-      const objLoader = new THREE.OBJLoader();
-      objLoader.setMaterials(materials);
-      objLoader.load('Metal_Rouge.obj', (object) => {
-        object.traverse((child) => {
-          if (child.isMesh && child.material) {
-            child.castShadow = true;
-            child.receiveShadow = true;
-            child.material.metalness = 1.0;
-            child.material.roughness = 0.3;
-          }
-        });
-        scene.add(object);
-      });
     });
 
     // Loader 3: FBX
@@ -190,8 +171,8 @@
         if (child.isMesh && child.material) {
           child.castShadow = true;
           child.receiveShadow = true;
-          child.material.metalness = 1.0;
-          child.material.roughness = 0.3;
+          child.material.metalness = 5.0;
+          child.material.roughness = 1.0;
         }
       });
       scene.add(object);
@@ -212,3 +193,4 @@
   </script>
 </body>
 </html>
+
