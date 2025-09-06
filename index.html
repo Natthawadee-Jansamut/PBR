@@ -35,16 +35,23 @@
         const texture = texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/86000002_frame0.png");
 
         const loader = new THREE.OBJLoader();
-        loader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/piper.obj", (object) => {
+        loader.load("robot.obj", (object) => {
         object.traverse((child) => {
         if (child.isMesh) {
-            child.material = new THREE.MeshStandardMaterial({ map: texture });
-            child.castShadow = true;
-            child.receiveShadow = true;
+            let tex;
+            if (child.name.includes("head")) {
+                tex = texHead;
+            } else if (child.name.includes("body")) {
+                tex = texBody;
+            } else {
+                tex = texDefault;
+            }
+            child.material = new THREE.MeshStandardMaterial({ map: tex });
             }
         });
         scene.add(object);
         });
+
 
 
         // Render loop
@@ -56,6 +63,7 @@
     </script>
 </body>
 </html>
+
 
 
 
