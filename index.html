@@ -31,25 +31,21 @@
         dirLight.castShadow = true;
         scene.add(dirLight);
 
-        // โหลด texture ทั้ง 6 ไฟล์
         const texLoader = new THREE.TextureLoader();
-        const texList = [
-            texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/86000002_frame0.png")  
-        ];
+        const texture = texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/86000002_frame0.png");
 
-        // โหลด OBJ แล้วสลับ texture ให้ทีละ mesh
         const loader = new THREE.OBJLoader();
         loader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/piper.obj", (object) => {
-            let i = 0;
-            object.traverse((child) => {
-                if (child.isMesh) {
-                    child.castShadow = true;
-                    child.receiveShadow = true;
-                    i++;
-                }
-            });
-            scene.add(object);
+        object.traverse((child) => {
+        if (child.isMesh) {
+            child.material = new THREE.MeshStandardMaterial({ map: texture });
+            child.castShadow = true;
+            child.receiveShadow = true;
+            }
         });
+        scene.add(object);
+        });
+
 
         // Render loop
         function animate() {
@@ -60,6 +56,7 @@
     </script>
 </body>
 </html>
+
 
 
 
