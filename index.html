@@ -34,24 +34,17 @@
         // โหลด texture ทั้ง 6 ไฟล์
         const texLoader = new THREE.TextureLoader();
         const texList = [
-            texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/internal_ground_ao_texture.jpeg"),
-            texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/tripo_image_1814138c-9f6b-4ee5-b120-3803b3dd5482_0_0.jpeg"),
-           
+            texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/86000002_frame0.png")  
         ];
 
         // โหลด OBJ แล้วสลับ texture ให้ทีละ mesh
         const loader = new THREE.OBJLoader();
-        loader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/robot.obj", (object) => {
+        loader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/piper.obj", (object) => {
             let i = 0;
             object.traverse((child) => {
                 if (child.isMesh) {
                     child.castShadow = true;
                     child.receiveShadow = true;
-
-                    child.material = new THREE.MeshStandardMaterial({
-                        map: texList[i % texList.length]  // สลับ texture ไปเรื่อย ๆ
-                    });
-
                     i++;
                 }
             });
@@ -67,5 +60,6 @@
     </script>
 </body>
 </html>
+
 
 
