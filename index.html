@@ -34,11 +34,8 @@
 
     // Lights
     const frontLight = new THREE.DirectionalLight(0xffffff, 3.0);
-    frontLight.position.set(2, 5, 5);
+    frontLight.position.set(5, 8, 5);
     frontLight.castShadow = true;
-    frontLight.shadow.mapSize.width = 4096;
-    frontLight.shadow.mapSize.height = 4096;
-    frontLight.shadow.bias = -0.0005;
     scene.add(frontLight);
 
     const fillLight = new THREE.DirectionalLight(0xffffff, 0.5);
@@ -92,7 +89,7 @@
           child.receiveShadow = true;
 
           let matProps = {
-            metalness: 1.0,
+            metalness: 3.0,
             roughness: 0.2
           };
 
@@ -173,4 +170,5 @@
   </script>
 </body>
 </html>
+
 
