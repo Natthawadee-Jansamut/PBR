@@ -35,19 +35,20 @@
     dirLight.castShadow = true;
     scene.add(dirLight);
 
-    const mtlLoader = new THREE.MTLLoader();
-    mtlLoader.setPath("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/"); // folder ของ MTL + texture
-    mtlLoader.load("piper.mtl", (materials) => {
-    materials.preload();
+   const texture = new THREE.TextureLoader().load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/86000002_frame0.png");
+const material = new THREE.MeshPhongMaterial({ map: texture });
 
-    const objLoader = new THREE.OBJLoader();
-    objLoader.setMaterials(materials);
-    objLoader.setPath("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/");
-    objLoader.load("piper.obj", (object) => {
-      object.position.y = 0;
-      scene.add(object);
-      });
-    });
+const objLoader = new THREE.OBJLoader();
+objLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/piper.obj", (object) => {
+  object.traverse((child) => {
+    if (child.isMesh) {
+      child.material = material;
+    }
+  });
+  object.position.y = 0;
+  scene.add(object);
+});
+
 
 
     // Render loop
