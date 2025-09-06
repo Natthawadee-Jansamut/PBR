@@ -33,9 +33,25 @@
     const controls = new THREE.OrbitControls(camera, renderer.domElement);
 
     // Lights
-    const light = new THREE.DirectionalLight(0xffffff, 1);
-    light.position.set(3, 5, 2);
-    scene.add(light);
+    // ไฟหลักส่องจากด้านหน้า ให้โลหะสะท้อนชัด
+    const frontLight = new THREE.DirectionalLight(0xffffff, 3.0);
+    frontLight.position.set(0, 2, 5); // ด้านหน้า + สูงเล็กน้อย
+    frontLight.castShadow = true;
+    frontLight.shadow.mapSize.width = 4096; // ค่าใหญ่ → เงาคมขึ้น
+    frontLight.shadow.mapSize.height = 4096;
+    frontLight.shadow.bias = -0.0005;       // ปรับให้เงาไม่ลอย
+
+    scene.add(frontLight);
+
+    // ไฟเสริมด้านข้าง/หลังให้รายละเอียดไม่มืด
+    const fillLight = new THREE.DirectionalLight(0xffffff, 0.5);
+    fillLight.position.set(-3, 2, -3);
+    scene.add(fillLight);
+
+    // ไฟ ambient เบาๆ ปรับแสงทั่ว scene
+    const ambient = new THREE.AmbientLight(0xffffff, 0.3);
+    scene.add(ambient);
+
 
 
     // Loader สำหรับ textures
@@ -84,12 +100,15 @@
           switch (child.name) {
             case "Object_6": // แขน
               child.material = new THREE.MeshStandardMaterial({
-                map: textures.hands_diff,
-                normalMap: textures.hands_norm,
-                metalnessMap: textures.hands_spec,
-                roughnessMap: textures.hands_gloss,
-                metalness: 5.0,
-                roughness: 1.0
+                map: textures.body_diff,
+                normalMap: textures.body_norm,
+                metalnessMap: textures.body_spec,
+                roughnessMap: textures.body_gloss,
+                aoMap: textures.body_AO,
+                metalness: 1.0,
+                roughness: 0.2
+});
+
               });
               break;
             case "Object_7": // หัว
@@ -99,15 +118,15 @@
                 metalnessMap: textures.head_spec,
                 roughnessMap: textures.head_gloss,
                 aoMap: textures.head_AO,
-                metalness: 5.0,
-                roughness: 1.0
+                metalness: 1.0,
+                roughness: 0.2
               });
               break;
             case "Object_8": // ตา
               child.material = new THREE.MeshStandardMaterial({
                 map: textures.eye_diff,
-                metalness: 5.0,
-                roughness: 1.0
+                metalness: 1.0,
+                roughness: 0.2
               });
               break;
             case "Object_9": // ขา
@@ -117,8 +136,8 @@
                 metalnessMap: textures.legs_spec,
                 roughnessMap: textures.legs_gloss,
                 aoMap: textures.legs_AO,
-                metalness: 5.0,
-                roughness: 1.0
+                metalness: 1.0,
+                roughness: 0.2
               });
               break;
             case "Object_10": // ตัว
@@ -128,8 +147,8 @@
                 metalnessMap: textures.body_spec,
                 roughnessMap: textures.body_gloss,
                 aoMap: textures.body_AO,
-                metalness: 5.0,
-                roughness: 1.0
+                metalness: 1.0,
+                roughness: 0.2
               });
               break;
             case "Object_12": // Jetpack
@@ -139,15 +158,15 @@
                 metalnessMap: textures.jetpack_spec,
                 roughnessMap: textures.jetpack_gloss,
                 aoMap: textures.jetpack_AO,
-                metalness: 5.0,
-                roughness: 1.0
+                metalness: 1.0,
+                roughness: 0.2
               });
               break;
             default:
               child.material = new THREE.MeshStandardMaterial({
                 color: 0xaaaaaa,
-                metalness: 5.0,
-                roughness: 1.0
+                metalness: 1.0,
+                roughness: 0.2
               });
           }
         }
@@ -170,6 +189,7 @@
   </script>
 </body>
 </html>
+
 
 
 
