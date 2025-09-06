@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>piper</title>
+    <title>robot</title>
     <style>
         body { margin: 0; overflow: hidden; }
     </style>
@@ -34,13 +34,15 @@
         // โหลด texture ทั้ง 6 ไฟล์
         const texLoader = new THREE.TextureLoader();
         const texList = [
-            texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/86000002_frame0.png"),
+            texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/internal_ground_ao_texture.jpeg"),
+            texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/tripo_image_1814138c-9f6b-4ee5-b120-3803b3dd5482_0_0.jpeg
+"),
            
         ];
 
         // โหลด OBJ แล้วสลับ texture ให้ทีละ mesh
         const loader = new THREE.OBJLoader();
-        loader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/piper.obj", (object) => {
+        loader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/robot.obj", (object) => {
             let i = 0;
             object.traverse((child) => {
                 if (child.isMesh) {
@@ -66,3 +68,4 @@
     </script>
 </body>
 </html>
+
