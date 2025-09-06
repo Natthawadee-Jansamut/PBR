@@ -36,34 +36,40 @@
     dirLight.castShadow = true;
     scene.add(dirLight);
 
-    // โหลด texture
+    // โหลด texture เก็บใน object
     const texLoader = new THREE.TextureLoader();
-    const texture = texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/body_AO.png");
-    const texture = texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/body_diff.png");
-    const texture = texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/body_gloss.png");
-    const texture = texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/body_norm.png");
-    const texture = texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/body_spec.png");
-    const texture = texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/hands_diff.png");
-    const texture = texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/hands_gloss.png");
-    const texture = texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/hands_spec.png");
-    const texture = texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/head_diff.png");
-    const texture = texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/head_gloss.png");
-    const texture = texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/head_spec.png");
-    const texture = texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/jetpack_AO.png");
-    const texture = texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/jetpack_diff.png");
-    const texture = texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/legs_AO.png");
-    const texture = texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/legs_gloss.png");
-    const texture = texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/legs_norm.png");
-    const texture = texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/legs_spec.png");
-    const texture = texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/eye_diff.png");
-    const texture = texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/hands_norm.png");
-    const texture = texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/head_AO.png");
-    const texture = texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/head_norm.png");
-    const texture = texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/jetpack_gloss.png");
-    const texture = texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/jetpack_norm.png");
-    const texture = texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/jetpack_spec.png");
-    const texture = texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/legs_diff.png");
-    
+    const textures = {
+      body_AO: texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/body_AO.png"),
+      body_diff: texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/body_diff.png"),
+      body_gloss: texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/body_gloss.png"),
+      body_norm: texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/body_norm.png"),
+      body_spec: texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/body_spec.png"),
+
+      hands_diff: texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/hands_diff.png"),
+      hands_gloss: texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/hands_gloss.png"),
+      hands_spec: texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/hands_spec.png"),
+      hands_norm: texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/hands_norm.png"),
+
+      head_diff: texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/head_diff.png"),
+      head_gloss: texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/head_gloss.png"),
+      head_spec: texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/head_spec.png"),
+      head_AO: texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/head_AO.png"),
+      head_norm: texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/head_norm.png"),
+
+      jetpack_AO: texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/jetpack_AO.png"),
+      jetpack_diff: texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/jetpack_diff.png"),
+      jetpack_gloss: texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/jetpack_gloss.png"),
+      jetpack_norm: texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/jetpack_norm.png"),
+      jetpack_spec: texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/jetpack_spec.png"),
+
+      legs_AO: texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/legs_AO.png"),
+      legs_diff: texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/legs_diff.png"),
+      legs_gloss: texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/legs_gloss.png"),
+      legs_norm: texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/legs_norm.png"),
+      legs_spec: texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/legs_spec.png"),
+
+      eye_diff: texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/eye_diff.png"),
+    };
 
     // โหลด OBJ + ใส่ texture
     const loader = new THREE.OBJLoader();
@@ -72,8 +78,66 @@
         if (child.isMesh) {
           child.castShadow = true;
           child.receiveShadow = true;
-          // ใส่ texture ให้กับ material
-          child.material = new THREE.MeshStandardMaterial({ map: texture });
+
+          switch (child.name) {
+            case "Object_6": // แขน
+              child.material = new THREE.MeshStandardMaterial({
+                map: textures.hands_diff,
+                normalMap: textures.hands_norm,
+                metalnessMap: textures.hands_spec,
+                roughnessMap: textures.hands_gloss
+              });
+              break;
+
+            case "Object_7": // หัว
+              child.material = new THREE.MeshStandardMaterial({
+                map: textures.head_diff,
+                normalMap: textures.head_norm,
+                metalnessMap: textures.head_spec,
+                roughnessMap: textures.head_gloss,
+                aoMap: textures.head_AO
+              });
+              break;
+
+            case "Object_8": // ตา
+              child.material = new THREE.MeshStandardMaterial({
+                map: textures.eye_diff,
+              });
+              break;
+
+            case "Object_9": // ขา
+              child.material = new THREE.MeshStandardMaterial({
+                map: textures.legs_diff,
+                normalMap: textures.legs_norm,
+                metalnessMap: textures.legs_spec,
+                roughnessMap: textures.legs_gloss,
+                aoMap: textures.legs_AO
+              });
+              break;
+
+            case "Object_10": // ตัว
+              child.material = new THREE.MeshStandardMaterial({
+                map: textures.body_diff,
+                normalMap: textures.body_norm,
+                metalnessMap: textures.body_spec,
+                roughnessMap: textures.body_gloss,
+                aoMap: textures.body_AO
+              });
+              break;
+
+            case "Object_12": // Jetpack
+              child.material = new THREE.MeshStandardMaterial({
+                map: textures.jetpack_diff,
+                normalMap: textures.jetpack_norm,
+                metalnessMap: textures.jetpack_spec,
+                roughnessMap: textures.jetpack_gloss,
+                aoMap: textures.jetpack_AO
+              });
+              break;
+
+            default:
+              child.material = new THREE.MeshStandardMaterial({ color: 0xaaaaaa });
+          }
         }
       });
       scene.add(object);
@@ -95,4 +159,3 @@
   </script>
 </body>
 </html>
-
