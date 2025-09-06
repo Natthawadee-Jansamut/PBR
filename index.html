@@ -37,13 +37,11 @@
 
     // โหลด MTL ก่อน แล้วค่อยโหลด OBJ
     const mtlLoader = new THREE.MTLLoader();
-    mtlLoader.setPath("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/piper.mtl"); // ไฟล์อยู่โฟลเดอร์เดียวกับ index.html
     mtlLoader.load("piper.mtl", (materials) => {
       materials.preload();
 
       const objLoader = new THREE.OBJLoader();
       objLoader.setMaterials(materials);
-      objLoader.setPath("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/piper.obj");
       objLoader.load("piper.obj", (object) => {
         object.position.y = 0;  // ยกขึ้นจากพื้นนิดหน่อย
         scene.add(object);
@@ -66,3 +64,4 @@
   </script>
 </body>
 </html>
+
