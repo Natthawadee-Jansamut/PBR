@@ -33,19 +33,23 @@
     const controls = new THREE.OrbitControls(camera, renderer.domElement);
 
     // Lights
-    const hemiLight = new THREE.HemisphereLight(0xffffff, 0x444444, 0.6);
-    hemiLight.position.set(0, 20, 0);
-    scene.add(hemiLight);
+  // ไฟหลักส่องจากด้านหน้า ให้โลหะสะท้อนชัด
+const frontLight = new THREE.DirectionalLight(0xffffff, 3.0);
+frontLight.position.set(0, 2, 5); // ด้านหน้า + สูงเล็กน้อย
+frontLight.castShadow = true;
+frontLight.shadow.mapSize.width = 4096;
+frontLight.shadow.mapSize.height = 4096;
+scene.add(frontLight);
 
-    const dirLight = new THREE.DirectionalLight(0xffffff, 1.5);
-    dirLight.position.set(3, 5, 2);
-    dirLight.castShadow = true;
-    dirLight.shadow.mapSize.width = 2048;
-    dirLight.shadow.mapSize.height = 2048;
-    scene.add(dirLight);
+// ไฟเสริมด้านข้าง/หลังให้รายละเอียดไม่มืด
+const fillLight = new THREE.DirectionalLight(0xffffff, 0.5);
+fillLight.position.set(-3, 2, -3);
+scene.add(fillLight);
 
-    const ambient = new THREE.AmbientLight(0xffffff, 0.4);
-    scene.add(ambient);
+// ไฟ ambient เบาๆ ปรับแสงทั่ว scene
+const ambient = new THREE.AmbientLight(0xffffff, 0.3);
+scene.add(ambient);
+
 
     // Loader สำหรับ textures
     const texLoader = new THREE.TextureLoader();
@@ -179,6 +183,7 @@
   </script>
 </body>
 </html>
+
 
 
 
