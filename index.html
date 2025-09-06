@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Metal Hw3 Combined</title>
+  <title>Hw3</title>
   <style>
     body { margin: 0; overflow: hidden; }
   </style>
@@ -16,7 +16,7 @@
   <script>
     // Scene
     const scene = new THREE.Scene();
-    scene.background = new THREE.Color(0xede7f6); 
+    scene.background = new THREE.Color(0xede7f6); // พื้นหลังดำ
 
     // Camera
     const camera = new THREE.PerspectiveCamera(60, innerWidth/innerHeight, 0.1, 100);
@@ -33,28 +33,22 @@
     const controls = new THREE.OrbitControls(camera, renderer.domElement);
 
     // Lights
-    // ไฟหลักส่องจากด้านหน้า ให้โลหะสะท้อนชัด
     const frontLight = new THREE.DirectionalLight(0xffffff, 3.0);
-    frontLight.position.set(0, 2, 5); // ด้านหน้า + สูงเล็กน้อย
+    frontLight.position.set(0, 2, 5);
     frontLight.castShadow = true;
-    frontLight.shadow.mapSize.width = 4096; // ค่าใหญ่ → เงาคมขึ้น
+    frontLight.shadow.mapSize.width = 4096;
     frontLight.shadow.mapSize.height = 4096;
-    frontLight.shadow.bias = -0.0005;       // ปรับให้เงาไม่ลอย
-
+    frontLight.shadow.bias = -0.0005;
     scene.add(frontLight);
 
-    // ไฟเสริมด้านข้าง/หลังให้รายละเอียดไม่มืด
     const fillLight = new THREE.DirectionalLight(0xffffff, 0.5);
     fillLight.position.set(-3, 2, -3);
     scene.add(fillLight);
 
-    // ไฟ ambient เบาๆ ปรับแสงทั่ว scene
     const ambient = new THREE.AmbientLight(0xffffff, 0.3);
     scene.add(ambient);
 
-
-
-    // Loader สำหรับ textures
+    // Textures
     const texLoader = new THREE.TextureLoader();
     const textures = {
       body_diff: texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/body_diff.png"),
@@ -89,109 +83,93 @@
       eye_diff: texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/eye_diff.png")
     };
 
-    // Loader 1: OBJ แยก textures
+    // OBJ Loader
     const loader = new THREE.OBJLoader();
     loader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/metal.obj", (object) => {
       object.traverse((child) => {
-        if (child.isMesh) {
+        if(child.isMesh) {
           child.castShadow = true;
           child.receiveShadow = true;
 
-          switch (child.name) {
-            case "Object_6": // แขน
-              child.material = new THREE.MeshStandardMaterial({
-                map: textures.body_diff,
-                normalMap: textures.body_norm,
-                metalnessMap: textures.body_spec,
-                roughnessMap: textures.body_gloss,
-                aoMap: textures.body_AO,
-                metalness: 1.0,
-                roughness: 0.2
-});
+          let matProps = {
+            metalness: 1.0,
+            roughness: 0.2
+          };
 
-              });
+          switch(child.name) {
+            case "Object_6": // แขน
+              child.material = new THREE.MeshStandardMaterial(Object.assign({
+                map: textures.hands_diff,
+                normalMap: textures.hands_norm,
+                metalnessMap: textures.hands_spec,
+                roughnessMap: textures.hands_gloss,
+                aoMap: textures.body_AO
+              }, matProps));
               break;
             case "Object_7": // หัว
-              child.material = new THREE.MeshStandardMaterial({
+              child.material = new THREE.MeshStandardMaterial(Object.assign({
                 map: textures.head_diff,
                 normalMap: textures.head_norm,
                 metalnessMap: textures.head_spec,
                 roughnessMap: textures.head_gloss,
-                aoMap: textures.head_AO,
-                metalness: 1.0,
-                roughness: 0.2
-              });
+                aoMap: textures.head_AO
+              }, matProps));
               break;
             case "Object_8": // ตา
-              child.material = new THREE.MeshStandardMaterial({
-                map: textures.eye_diff,
-                metalness: 1.0,
-                roughness: 0.2
-              });
+              child.material = new THREE.MeshStandardMaterial(Object.assign({
+                map: textures.eye_diff
+              }, matProps));
               break;
             case "Object_9": // ขา
-              child.material = new THREE.MeshStandardMaterial({
+              child.material = new THREE.MeshStandardMaterial(Object.assign({
                 map: textures.legs_diff,
                 normalMap: textures.legs_norm,
                 metalnessMap: textures.legs_spec,
                 roughnessMap: textures.legs_gloss,
-                aoMap: textures.legs_AO,
-                metalness: 1.0,
-                roughness: 0.2
-              });
+                aoMap: textures.legs_AO
+              }, matProps));
               break;
             case "Object_10": // ตัว
-              child.material = new THREE.MeshStandardMaterial({
+              child.material = new THREE.MeshStandardMaterial(Object.assign({
                 map: textures.body_diff,
                 normalMap: textures.body_norm,
                 metalnessMap: textures.body_spec,
                 roughnessMap: textures.body_gloss,
-                aoMap: textures.body_AO,
-                metalness: 1.0,
-                roughness: 0.2
-              });
+                aoMap: textures.body_AO
+              }, matProps));
               break;
             case "Object_12": // Jetpack
-              child.material = new THREE.MeshStandardMaterial({
+              child.material = new THREE.MeshStandardMaterial(Object.assign({
                 map: textures.jetpack_diff,
                 normalMap: textures.jetpack_norm,
                 metalnessMap: textures.jetpack_spec,
                 roughnessMap: textures.jetpack_gloss,
-                aoMap: textures.jetpack_AO,
-                metalness: 1.0,
-                roughness: 0.2
-              });
+                aoMap: textures.jetpack_AO
+              }, matProps));
               break;
             default:
-              child.material = new THREE.MeshStandardMaterial({
-                color: 0xaaaaaa,
-                metalness: 1.0,
-                roughness: 0.2
-              });
+              child.material = new THREE.MeshStandardMaterial(Object.assign({
+                color: 0xaaaaaa
+              }, matProps));
           }
         }
       });
       scene.add(object);
     });
 
-    // Render loop
+    // Animate
     function animate() {
-      renderer.render(scene, camera);
       requestAnimationFrame(animate);
+      renderer.render(scene, camera);
     }
     animate();
 
+    // Resize
     window.addEventListener("resize", () => {
-      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.aspect = innerWidth/innerHeight;
       camera.updateProjectionMatrix();
-      renderer.setSize(window.innerWidth, window.innerHeight);
+      renderer.setSize(innerWidth, innerHeight);
     });
   </script>
 </body>
 </html>
-
-
-
-
-
-
