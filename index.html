@@ -41,13 +41,13 @@
 
   // โหลด MTL ก่อน แล้วค่อย OBJ
   const mtlLoader = new THREE.MTLLoader();
-  mtlLoader.setPath("./");   // ไฟล์อยู่โฟลเดอร์เดียวกับ index.html
+  mtlLoader.setPath("https://github.com/Natthawadee-Jansamut/PBR/blob/main/frog.mtl");   // ไฟล์อยู่โฟลเดอร์เดียวกับ index.html
   mtlLoader.load("frog.mtl", (materials) => {
     materials.preload();
 
     const objLoader = new THREE.OBJLoader();
     objLoader.setMaterials(materials);
-    objLoader.setPath("./");
+    objLoader.setPath("https://github.com/Natthawadee-Jansamut/PBR/blob/main/frog.obj");
     objLoader.load("frog.obj", (object) => {
       object.scale.set(0.01, 0.01, 0.01); // ปรับสเกลถ้าใหญ่ไป
       scene.add(object);
@@ -71,3 +71,4 @@
 </script>
 </body>
 </html>
+
