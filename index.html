@@ -1,158 +1,197 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>robot</title>
+  <title>Metal Robot Combined</title>
   <style>
     body { margin: 0; overflow: hidden; }
   </style>
 </head>
 <body>
-  <!-- Three.js และ Loader -->
   <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/MTLLoader.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/OBJLoader.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/FBXLoader.js"></script>
 
   <script>
-
+    // Scene
     const scene = new THREE.Scene();
-  scene.background = new THREE.Color(0xffffff); // ✅ พื้นหลังสีขาว
+    scene.background = new THREE.Color(0x000000); // พื้นหลังดำ
 
-  // Camera
-  const camera = new THREE.PerspectiveCamera(60, innerWidth/innerHeight, 0.1, 100);
-  camera.position.set(0, 1, 3);
+    // Camera
+    const camera = new THREE.PerspectiveCamera(60, innerWidth/innerHeight, 0.1, 100);
+    camera.position.set(0, 1, 3);
 
-  // Renderer
-  const renderer = new THREE.WebGLRenderer({ antialias: true });
-  renderer.setSize(innerWidth, innerHeight);
-  renderer.outputEncoding = THREE.sRGBEncoding;
-  document.body.appendChild(renderer.domElement);
+    // Renderer
+    const renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setSize(innerWidth, innerHeight);
+    renderer.outputEncoding = THREE.sRGBEncoding;
+    renderer.shadowMap.enabled = true;
+    document.body.appendChild(renderer.domElement);
 
-  // Controls
-  const controls = new THREE.OrbitControls(camera, renderer.domElement);
+    // Controls
+    const controls = new THREE.OrbitControls(camera, renderer.domElement);
 
-  // Lights
-  const hemiLight = new THREE.HemisphereLight(0xffffff, 0x444444, 0.6);
-  hemiLight.position.set(0, 20, 0);
-  scene.add(hemiLight);
+    // Lights
+    const hemiLight = new THREE.HemisphereLight(0xffffff, 0x444444, 0.6);
+    hemiLight.position.set(0, 20, 0);
+    scene.add(hemiLight);
 
-  const dirLight = new THREE.DirectionalLight(0xffffff, 1.5);
-  dirLight.position.set(3, 5, 2);
-  dirLight.castShadow = true;
-  dirLight.shadow.mapSize.width = 2048;
-  dirLight.shadow.mapSize.height = 2048;
-  scene.add(dirLight);
+    const dirLight = new THREE.DirectionalLight(0xffffff, 1.5);
+    dirLight.position.set(3, 5, 2);
+    dirLight.castShadow = true;
+    dirLight.shadow.mapSize.width = 2048;
+    dirLight.shadow.mapSize.height = 2048;
+    scene.add(dirLight);
 
-  // ✅ เพิ่ม AmbientLight ให้ดูนวล
-  const ambient = new THREE.AmbientLight(0xffffff, 0.4);
-  scene.add(ambient);
+    const ambient = new THREE.AmbientLight(0xffffff, 0.4);
+    scene.add(ambient);
 
-    // โหลด texture เก็บใน object
+    // Loader สำหรับ textures
     const texLoader = new THREE.TextureLoader();
     const textures = {
-      body_AO: texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/body_AO.png"),
       body_diff: texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/body_diff.png"),
-      body_gloss: texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/body_gloss.png"),
       body_norm: texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/body_norm.png"),
+      body_gloss: texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/body_gloss.png"),
       body_spec: texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/body_spec.png"),
+      body_AO: texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/body_AO.png"),
 
       hands_diff: texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/hands_diff.png"),
+      hands_norm: texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/hands_norm.png"),
       hands_gloss: texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/hands_gloss.png"),
       hands_spec: texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/hands_spec.png"),
-      hands_norm: texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/hands_norm.png"),
 
       head_diff: texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/head_diff.png"),
+      head_norm: texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/head_norm.png"),
       head_gloss: texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/head_gloss.png"),
       head_spec: texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/head_spec.png"),
       head_AO: texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/head_AO.png"),
-      head_norm: texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/head_norm.png"),
 
-      jetpack_AO: texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/jetpack_AO.png"),
-      jetpack_diff: texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/jetpack_diff.png"),
-      jetpack_gloss: texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/jetpack_gloss.png"),
-      jetpack_norm: texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/jetpack_norm.png"),
-      jetpack_spec: texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/jetpack_spec.png"),
-
-      legs_AO: texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/legs_AO.png"),
       legs_diff: texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/legs_diff.png"),
-      legs_gloss: texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/legs_gloss.png"),
       legs_norm: texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/legs_norm.png"),
+      legs_gloss: texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/legs_gloss.png"),
       legs_spec: texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/legs_spec.png"),
+      legs_AO: texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/legs_AO.png"),
 
-      eye_diff: texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/eye_diff.png"),
+      jetpack_diff: texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/jetpack_diff.png"),
+      jetpack_norm: texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/jetpack_norm.png"),
+      jetpack_gloss: texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/jetpack_gloss.png"),
+      jetpack_spec: texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/jetpack_spec.png"),
+      jetpack_AO: texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/jetpack_AO.png"),
+
+      eye_diff: texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/eye_diff.png")
     };
 
-    // โหลด OBJ + ใส่ texture
+    // Loader 1: OBJ แยก textures
     const loader = new THREE.OBJLoader();
     loader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/metal.obj", (object) => {
       object.traverse((child) => {
         if (child.isMesh) {
           child.castShadow = true;
           child.receiveShadow = true;
-          
-          // ตัวอย่าง: ปรับค่าพิเศษเพิ่ม metalness/roughness
-          child.material.metalness = 1.0;
-          child.material.roughness = 0.3;
 
           switch (child.name) {
-            case "Object_6": // แขน
+            case "Object_6":
               child.material = new THREE.MeshStandardMaterial({
                 map: textures.hands_diff,
                 normalMap: textures.hands_norm,
                 metalnessMap: textures.hands_spec,
-                roughnessMap: textures.hands_gloss
+                roughnessMap: textures.hands_gloss,
+                metalness: 1.0,
+                roughness: 0.3
               });
               break;
-
-            case "Object_7": // หัว
+            case "Object_7":
               child.material = new THREE.MeshStandardMaterial({
                 map: textures.head_diff,
                 normalMap: textures.head_norm,
                 metalnessMap: textures.head_spec,
                 roughnessMap: textures.head_gloss,
-                aoMap: textures.head_AO
+                aoMap: textures.head_AO,
+                metalness: 1.0,
+                roughness: 0.3
               });
               break;
-
-            case "Object_8": // ตา
+            case "Object_8":
               child.material = new THREE.MeshStandardMaterial({
                 map: textures.eye_diff,
+                metalness: 1.0,
+                roughness: 0.3
               });
               break;
-
-            case "Object_9": // ขา
+            case "Object_9":
               child.material = new THREE.MeshStandardMaterial({
                 map: textures.legs_diff,
                 normalMap: textures.legs_norm,
                 metalnessMap: textures.legs_spec,
                 roughnessMap: textures.legs_gloss,
-                aoMap: textures.legs_AO
+                aoMap: textures.legs_AO,
+                metalness: 1.0,
+                roughness: 0.3
               });
               break;
-
-            case "Object_10": // ตัว
+            case "Object_10":
               child.material = new THREE.MeshStandardMaterial({
                 map: textures.body_diff,
                 normalMap: textures.body_norm,
                 metalnessMap: textures.body_spec,
                 roughnessMap: textures.body_gloss,
-                aoMap: textures.body_AO
+                aoMap: textures.body_AO,
+                metalness: 1.0,
+                roughness: 0.3
               });
               break;
-
-            case "Object_12": // Jetpack
+            case "Object_12":
               child.material = new THREE.MeshStandardMaterial({
                 map: textures.jetpack_diff,
                 normalMap: textures.jetpack_norm,
                 metalnessMap: textures.jetpack_spec,
                 roughnessMap: textures.jetpack_gloss,
-                aoMap: textures.jetpack_AO
+                aoMap: textures.jetpack_AO,
+                metalness: 1.0,
+                roughness: 0.3
               });
               break;
-
             default:
-              child.material = new THREE.MeshStandardMaterial({ color: 0xaaaaaa });
+              child.material = new THREE.MeshStandardMaterial({
+                color: 0xaaaaaa,
+                metalness: 1.0,
+                roughness: 0.3
+              });
           }
+        }
+      });
+      scene.add(object);
+    });
+
+    // Loader 2: OBJ + MTL
+    const mtlLoader = new THREE.MTLLoader();
+    mtlLoader.load('Metal_Rouge.mtl', (materials) => {
+      materials.preload();
+      const objLoader = new THREE.OBJLoader();
+      objLoader.setMaterials(materials);
+      objLoader.load('Metal_Rouge.obj', (object) => {
+        object.traverse((child) => {
+          if (child.isMesh && child.material) {
+            child.castShadow = true;
+            child.receiveShadow = true;
+            child.material.metalness = 1.0;
+            child.material.roughness = 0.3;
+          }
+        });
+        scene.add(object);
+      });
+    });
+
+    // Loader 3: FBX
+    const fbxLoader = new THREE.FBXLoader();
+    fbxLoader.load('Metal_Rouge.FBX', (object) => {
+      object.traverse((child) => {
+        if (child.isMesh && child.material) {
+          child.castShadow = true;
+          child.receiveShadow = true;
+          child.material.metalness = 1.0;
+          child.material.roughness = 0.3;
         }
       });
       scene.add(object);
@@ -165,7 +204,6 @@
     }
     animate();
 
-    // ปรับขนาดเวลาย่อ/ขยายจอ
     window.addEventListener("resize", () => {
       camera.aspect = window.innerWidth / window.innerHeight;
       camera.updateProjectionMatrix();
@@ -174,6 +212,3 @@
   </script>
 </body>
 </html>
-
-
-
