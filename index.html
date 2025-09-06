@@ -34,12 +34,12 @@
         // โหลด texture ทั้ง 6 ไฟล์
         const texLoader = new THREE.TextureLoader();
         const texList = [
-            texLoader.load("https://github.com/Natthawadee-Jansamut/PBR/blob/main/86000002_frame0.png"),
+            texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/86000002_frame0.png"),
         ];
 
         // โหลด OBJ แล้วสลับ texture ให้ทีละ mesh
         const loader = new THREE.OBJLoader();
-        loader.load("https://github.com/Natthawadee-Jansamut/PBR/blob/main/piper.obj", (object) => {
+        loader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/piper.obj", (object) => {
             let i = 0;
             object.traverse((child) => {
                 if (child.isMesh) {
@@ -65,5 +65,6 @@
     </script>
 </body>
 </html>
+
 
 
