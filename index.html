@@ -38,11 +38,36 @@
 
     // โหลด texture
     const texLoader = new THREE.TextureLoader();
-    const texture = texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/86000002_frame0.png");
+    const texture = texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/body_AO.png");
+    const texture = texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/body_diff.png");
+    const texture = texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/body_gloss.png");
+    const texture = texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/body_norm.png");
+    const texture = texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/body_spec.png");
+    const texture = texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/hands_diff.png");
+    const texture = texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/hands_gloss.png");
+    const texture = texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/hands_spec.png");
+    const texture = texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/head_diff.png");
+    const texture = texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/head_gloss.png");
+    const texture = texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/head_spec.png");
+    const texture = texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/jetpack_AO.png");
+    const texture = texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/jetpack_diff.png");
+    const texture = texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/legs_AO.png");
+    const texture = texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/legs_gloss.png");
+    const texture = texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/legs_norm.png");
+    const texture = texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/legs_spec.png");
+    const texture = texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/eye_diff.png");
+    const texture = texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/hands_norm.png");
+    const texture = texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/head_AO.png");
+    const texture = texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/head_norm.png");
+    const texture = texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/jetpack_gloss.png");
+    const texture = texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/jetpack_norm.png");
+    const texture = texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/jetpack_spec.png");
+    const texture = texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/legs_diff.png");
+    
 
     // โหลด OBJ + ใส่ texture
     const loader = new THREE.OBJLoader();
-    loader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/piper.obj", (object) => {
+    loader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/metal.obj", (object) => {
       object.traverse((child) => {
         if (child.isMesh) {
           child.castShadow = true;
@@ -70,3 +95,4 @@
   </script>
 </body>
 </html>
+
