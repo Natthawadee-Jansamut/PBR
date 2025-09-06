@@ -35,24 +35,20 @@
     dirLight.castShadow = true;
     scene.add(dirLight);
 
-    // โหลด texture ทั้ง 6 ไฟล์
-        const texLoader = new THREE.TextureLoader();
-        const texList = [
-            texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/86000002_frame0.png"),
-        ];
-    
-    // โหลด MTL ก่อน แล้วค่อยโหลด OBJ
     const mtlLoader = new THREE.MTLLoader();
+    mtlLoader.setPath("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/"); // folder ของ MTL + texture
     mtlLoader.load("piper.mtl", (materials) => {
-      materials.preload();
+    materials.preload();
 
-      const objLoader = new THREE.OBJLoader();
-      objLoader.setMaterials(materials);
-      objLoader.load("piper.obj", (object) => {
-        object.position.y = 0;  // ยกขึ้นจากพื้นนิดหน่อย
-        scene.add(object);
+    const objLoader = new THREE.OBJLoader();
+    objLoader.setMaterials(materials);
+    objLoader.setPath("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/");
+    objLoader.load("piper.obj", (object) => {
+      object.position.y = 0;
+      scene.add(object);
       });
     });
+
 
     // Render loop
     function animate() {
@@ -70,5 +66,6 @@
   </script>
 </body>
 </html>
+
 
 
