@@ -35,6 +35,12 @@
     dirLight.castShadow = true;
     scene.add(dirLight);
 
+    // โหลด texture ทั้ง 6 ไฟล์
+        const texLoader = new THREE.TextureLoader();
+        const texList = [
+            texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/86000002_frame0.png"),
+        ];
+    
     // โหลด MTL ก่อน แล้วค่อยโหลด OBJ
     const mtlLoader = new THREE.MTLLoader();
     mtlLoader.load("piper.mtl", (materials) => {
@@ -64,4 +70,5 @@
   </script>
 </body>
 </html>
+
 
