@@ -164,20 +164,6 @@
       scene.add(object);
     });
 
-    // Loader 3: FBX
-    const fbxLoader = new THREE.FBXLoader();
-    fbxLoader.load('Metal_Rouge.FBX', (object) => {
-      object.traverse((child) => {
-        if (child.isMesh && child.material) {
-          child.castShadow = true;
-          child.receiveShadow = true;
-          child.material.metalness = 5.0;
-          child.material.roughness = 1.0;
-        }
-      });
-      scene.add(object);
-    });
-
     // Render loop
     function animate() {
       renderer.render(scene, camera);
@@ -193,4 +179,5 @@
   </script>
 </body>
 </html>
+
 
