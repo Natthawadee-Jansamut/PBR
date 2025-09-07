@@ -40,30 +40,32 @@
     const ambient = new THREE.AmbientLight(0xffffff, 0.3);
     scene.add(ambient);
 
-    // Ground Plane
+    // Texture Loader
+    const texLoader = new THREE.TextureLoader();
+
+    // ✅ Ground with texture
+    const groundTex = texLoader.load("https://threejs.org/examples/textures/terrain/grasslight-big.jpg");
+    groundTex.wrapS = THREE.RepeatWrapping;
+    groundTex.wrapT = THREE.RepeatWrapping;
+    groundTex.repeat.set(10, 10); // ทำให้ลายหญ้าซ้ำๆ ดูเป็นพื้นกว้าง
+
     const groundMat = new THREE.MeshStandardMaterial({
-      color: 0x777777,
-      roughness: 0.8,
-      metalness: 0.2
+      map: groundTex,
+      roughness: 0.9,
+      metalness: 0.0
     });
+
     const ground = new THREE.Mesh(new THREE.PlaneGeometry(20, 20), groundMat);
     ground.rotation.x = -Math.PI / 2;
     ground.receiveShadow = true;
     scene.add(ground);
 
-    // Extra PBR Objects
+    // Extra PBR Sphere
     const sphereMat = new THREE.MeshStandardMaterial({ color: 0xff4444, metalness: 0.9, roughness: 0.2 });
-    const boxMat = new THREE.MeshStandardMaterial({ color: 0x4444ff, metalness: 0.3, roughness: 0.7 });
-
     const sphere = new THREE.Mesh(new THREE.SphereGeometry(0.5, 32, 32), sphereMat);
     sphere.position.set(-2, 0.5, 0);
     sphere.castShadow = true;
     scene.add(sphere);
-
-    const box = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), boxMat);
-    box.position.set(2, 0.5, 0);
-    box.castShadow = true;
-    scene.add(box);
 
     // EnvMap (reflection)
     const cubeUrls = [
@@ -78,22 +80,17 @@
     envMap.encoding = THREE.sRGBEncoding;
     scene.environment = envMap;
 
-    // Textures
-    const texLoader = new THREE.TextureLoader();
+    // Model Textures
     const textures = {
       body_diff: texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/body_diff.png"),
       body_norm: texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/body_norm.png"),
       body_gloss: texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/body_gloss.png"),
       body_spec: texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/body_spec.png"),
-      body_AO: texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/body_AO.png"),
-      head_diff: texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/head_diff.png"),
-      head_norm: texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/head_norm.png"),
-      head_gloss: texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/head_gloss.png"),
-      head_spec: texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/head_spec.png"),
-      head_AO: texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/head_AO.png")
+      body_AO: texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/body_AO.png")
     };
 
     // OBJ Model
+    let modelMaterial;
     const loader = new THREE.OBJLoader();
     loader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/metal.obj", (object) => {
       object.traverse((child) => {
@@ -101,34 +98,27 @@
           child.castShadow = true;
           child.receiveShadow = true;
 
-          // แยกวัสดุ head กับ body ตามชื่อ mesh
-          if (child.name.toLowerCase().includes("head")) {
-            child.material = new THREE.MeshStandardMaterial({
-              map: textures.head_diff,
-              normalMap: textures.head_norm,
-              metalnessMap: textures.head_spec,
-              roughnessMap: textures.head_gloss,
-              aoMap: textures.head_AO,
-              envMap: envMap,
-              metalness: 0.9,
-              roughness: 0.3
-            });
-          } else {
-            child.material = new THREE.MeshStandardMaterial({
-              map: textures.body_diff,
-              normalMap: textures.body_norm,
-              metalnessMap: textures.body_spec,
-              roughnessMap: textures.body_gloss,
-              aoMap: textures.body_AO,
-              envMap: envMap,
-              metalness: 0.9,
-              roughness: 0.3
-            });
-          }
+          modelMaterial = new THREE.MeshStandardMaterial({
+            map: textures.body_diff,
+            normalMap: textures.body_norm,
+            metalnessMap: textures.body_spec,
+            roughnessMap: textures.body_gloss,
+            aoMap: textures.body_AO,
+            envMap: envMap,
+            metalness: 0.9,
+            roughness: 0.3
+          });
+          child.material = modelMaterial;
         }
       });
       object.position.y = 0;
       scene.add(object);
+
+      // dat.GUI สำหรับปรับค่าของโมเดล
+      const modelFolder = gui.addFolder("Model Material");
+      modelFolder.add(modelMaterial, "metalness", 0, 1);
+      modelFolder.add(modelMaterial, "roughness", 0, 1);
+      modelFolder.open();
     });
 
     // dat.GUI
@@ -143,11 +133,6 @@
     sphereFolder.add(sphere.material, "metalness", 0, 1);
     sphereFolder.add(sphere.material, "roughness", 0, 1);
     sphereFolder.open();
-
-    const boxFolder = gui.addFolder("Box Material");
-    boxFolder.add(box.material, "metalness", 0, 1);
-    boxFolder.add(box.material, "roughness", 0, 1);
-    boxFolder.open();
 
     // Animate
     function animate() {
