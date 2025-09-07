@@ -10,7 +10,6 @@
   <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/OBJLoader.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/FBXLoader.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/dat.gui/build/dat.gui.min.js"></script>
 
   <script>
@@ -66,7 +65,20 @@
     box.castShadow = true;
     scene.add(box);
 
-    // OBJ Model
+    // EnvMap (reflection)
+    const cubeUrls = [
+      'https://threejs.org/examples/textures/cube/Bridge2/posx.jpg',
+      'https://threejs.org/examples/textures/cube/Bridge2/negx.jpg',
+      'https://threejs.org/examples/textures/cube/Bridge2/posy.jpg',
+      'https://threejs.org/examples/textures/cube/Bridge2/negy.jpg',
+      'https://threejs.org/examples/textures/cube/Bridge2/posz.jpg',
+      'https://threejs.org/examples/textures/cube/Bridge2/negz.jpg'
+    ];
+    const envMap = new THREE.CubeTextureLoader().load(cubeUrls);
+    envMap.encoding = THREE.sRGBEncoding;
+    scene.environment = envMap;
+
+    // Textures
     const texLoader = new THREE.TextureLoader();
     const textures = {
       body_diff: texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/body_diff.png"),
@@ -81,21 +93,38 @@
       head_AO: texLoader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/head_AO.png")
     };
 
+    // OBJ Model
     const loader = new THREE.OBJLoader();
     loader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/metal.obj", (object) => {
       object.traverse((child) => {
         if (child.isMesh) {
           child.castShadow = true;
           child.receiveShadow = true;
-          child.material = new THREE.MeshStandardMaterial({
-            map: textures.body_diff,
-            normalMap: textures.body_norm,
-            metalnessMap: textures.body_spec,
-            roughnessMap: textures.body_gloss,
-            aoMap: textures.body_AO,
-            metalness: 0.9,
-            roughness: 0.3
-          });
+
+          // แยกวัสดุ head กับ body ตามชื่อ mesh
+          if (child.name.toLowerCase().includes("head")) {
+            child.material = new THREE.MeshStandardMaterial({
+              map: textures.head_diff,
+              normalMap: textures.head_norm,
+              metalnessMap: textures.head_spec,
+              roughnessMap: textures.head_gloss,
+              aoMap: textures.head_AO,
+              envMap: envMap,
+              metalness: 0.9,
+              roughness: 0.3
+            });
+          } else {
+            child.material = new THREE.MeshStandardMaterial({
+              map: textures.body_diff,
+              normalMap: textures.body_norm,
+              metalnessMap: textures.body_spec,
+              roughnessMap: textures.body_gloss,
+              aoMap: textures.body_AO,
+              envMap: envMap,
+              metalness: 0.9,
+              roughness: 0.3
+            });
+          }
         }
       });
       object.position.y = 0;
