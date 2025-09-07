@@ -108,7 +108,7 @@ loader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/met
             roughnessMap: textures.hands_gloss,
             aoMap: textures.body_AO,
             envMap: envMap,
-            metalness: 1.0,
+            metalness: 3.0,
             roughness: 0.1
           });
           break;
@@ -121,8 +121,8 @@ loader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/met
             roughnessMap: textures.head_gloss,
             aoMap: textures.head_AO,
             envMap: envMap,
-            metalness: 0.7,
-            roughness: 0.5
+            metalness: 3.0,
+            roughness: 0.1
           });
           break;
 
@@ -131,7 +131,7 @@ loader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/met
             map: textures.eye_diff,
             envMap: envMap,
             metalness: 0.2,
-            roughness: 0.05
+            roughness: 1.0
           });
           break;
 
@@ -143,8 +143,8 @@ loader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/met
             roughnessMap: textures.legs_gloss,
             aoMap: textures.legs_AO,
             envMap: envMap,
-            metalness: 0.9,
-            roughness: 0.3
+            metalness: 3.0,
+            roughness: 0.1
           });
           break;
 
@@ -169,7 +169,7 @@ loader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/met
             roughnessMap: textures.jetpack_gloss,
             aoMap: textures.jetpack_AO,
             envMap: envMap,
-            metalness: 1.0,
+            metalness: 3.0,
             roughness: 0.05
           });
           break;
@@ -187,14 +187,6 @@ loader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/met
   object.position.y = 0;
   scene.add(object);
 });
-
-
-      // dat.GUI สำหรับปรับค่าของโมเดล
-      const modelFolder = gui.addFolder("Model Material");
-      modelFolder.add(modelMaterial, "metalness", 0, 1);
-      modelFolder.add(modelMaterial, "roughness", 0, 1);
-      modelFolder.open();
-    });
 
     // dat.GUI
     const gui = new dat.GUI();
@@ -225,4 +217,5 @@ loader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/met
   </script>
 </body>
 </html>
+
 
