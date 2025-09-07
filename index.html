@@ -90,29 +90,104 @@
     };
 
     // OBJ Model
-    let modelMaterial;
-    const loader = new THREE.OBJLoader();
-    loader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/metal.obj", (object) => {
-      object.traverse((child) => {
-        if (child.isMesh) {
-          child.castShadow = true;
-          child.receiveShadow = true;
+    // OBJ Model
+let modelMaterial;
+const loader = new THREE.OBJLoader();
+loader.load("https://raw.githubusercontent.com/Natthawadee-Jansamut/PBR/main/metal.obj", (object) => {
+  object.traverse((child) => {
+    if (child.isMesh) {
+      child.castShadow = true;
+      child.receiveShadow = true;
 
-          modelMaterial = new THREE.MeshStandardMaterial({
+      switch (child.name) {
+        case "Object_6": // แขน
+          child.material = new THREE.MeshStandardMaterial({
+            map: textures.hands_diff,
+            normalMap: textures.hands_norm,
+            metalnessMap: textures.hands_spec,
+            roughnessMap: textures.hands_gloss,
+            aoMap: textures.body_AO,
+            envMap: envMap,
+            metalness: 1.0,
+            roughness: 0.1
+          });
+          break;
+
+        case "Object_7": // หัว
+          child.material = new THREE.MeshStandardMaterial({
+            map: textures.head_diff,
+            normalMap: textures.head_norm,
+            metalnessMap: textures.head_spec,
+            roughnessMap: textures.head_gloss,
+            aoMap: textures.head_AO,
+            envMap: envMap,
+            metalness: 0.7,
+            roughness: 0.5
+          });
+          break;
+
+        case "Object_8": // ตา
+          child.material = new THREE.MeshStandardMaterial({
+            map: textures.eye_diff,
+            envMap: envMap,
+            metalness: 0.2,
+            roughness: 0.05
+          });
+          break;
+
+        case "Object_9": // ขา
+          child.material = new THREE.MeshStandardMaterial({
+            map: textures.legs_diff,
+            normalMap: textures.legs_norm,
+            metalnessMap: textures.legs_spec,
+            roughnessMap: textures.legs_gloss,
+            aoMap: textures.legs_AO,
+            envMap: envMap,
+            metalness: 0.9,
+            roughness: 0.3
+          });
+          break;
+
+        case "Object_10": // ตัว
+          child.material = new THREE.MeshStandardMaterial({
             map: textures.body_diff,
             normalMap: textures.body_norm,
             metalnessMap: textures.body_spec,
             roughnessMap: textures.body_gloss,
             aoMap: textures.body_AO,
             envMap: envMap,
-            metalness: 0.9,
+            metalness: 1.0,
+            roughness: 0.25
+          });
+          break;
+
+        case "Object_12": // Jetpack
+          child.material = new THREE.MeshStandardMaterial({
+            map: textures.jetpack_diff,
+            normalMap: textures.jetpack_norm,
+            metalnessMap: textures.jetpack_spec,
+            roughnessMap: textures.jetpack_gloss,
+            aoMap: textures.jetpack_AO,
+            envMap: envMap,
+            metalness: 1.0,
+            roughness: 0.05
+          });
+          break;
+
+        default: // อื่น ๆ
+          child.material = new THREE.MeshStandardMaterial({
+            color: 0xaaaaaa,
+            envMap: envMap,
+            metalness: 0.8,
             roughness: 0.3
           });
-          child.material = modelMaterial;
-        }
-      });
-      object.position.y = 0;
-      scene.add(object);
+      }
+    }
+  });
+  object.position.y = 0;
+  scene.add(object);
+});
+
 
       // dat.GUI สำหรับปรับค่าของโมเดล
       const modelFolder = gui.addFolder("Model Material");
@@ -150,3 +225,4 @@
   </script>
 </body>
 </html>
+
